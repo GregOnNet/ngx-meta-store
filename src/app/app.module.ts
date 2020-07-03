@@ -1,22 +1,21 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-import { FilterComponent } from './filter/filter.component';
-import { ListComponent } from './list/list.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MetaStoreEventHandlerModule, MetaStoreModule } from '@meta-store'
+import { AppComponent } from './app.component'
+import { FilterComponent } from './filter/filter.component'
+import { ListComponent } from './list/list.component'
+import { ListHandler } from './list/list.handler.service'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FilterComponent,
-    ListComponent
-  ],
+  declarations: [AppComponent, FilterComponent, ListComponent],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MetaStoreModule.forRoot(),
+    MetaStoreEventHandlerModule.register([ListHandler]),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

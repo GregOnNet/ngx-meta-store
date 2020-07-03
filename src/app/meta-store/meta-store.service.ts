@@ -1,14 +1,22 @@
-import { Draft, produce } from 'immer'
+import { Draft, immerable, produce } from 'immer'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
-import { metaEventBus } from './meta-event-bus.service'
+import { metaStoreEventBusWritable } from './meta-store-event-bus.service'
+import { MetaStoreReset, MetaStoreUpdate } from './meta-store-event'
 
-export class MetaStore<TState> {
+export abstract class MetaStoreState {
+  [immerable] = true
+  abstract getStoreName(): string
+}
+
+export class MetaStore<TState extends MetaStoreState> {
   private stateInternal: BehaviorSubject<TState>
+
   state: Observable<TState>
 
   constructor(private initialState: TState) {
     this.stateInternal = new BehaviorSubject(initialState)
+
     this.state = this.stateInternal.pipe(
       shareReplay({ bufferSize: 1, refCount: true })
     )
@@ -20,10 +28,13 @@ export class MetaStore<TState> {
     })
 
     this.stateInternal.next(nextState)
-    metaEventBus().next(nextState)
+
+    metaStoreEventBusWritable().next(new MetaStoreUpdate(nextState))
   }
 
   reset(): void {
     this.stateInternal.next(this.initialState)
+
+    metaStoreEventBusWritable().next(new MetaStoreReset(this.initialState))
   }
 }

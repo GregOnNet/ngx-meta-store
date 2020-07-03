@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core'
-import { MetaEventStream } from '../meta-event-bus.service'
+import { ListApi } from './list-api.service'
+import {
+  forReset,
+  forUpdate,
+  MetaStoreEventCatalog,
+  MetaStoreEventHandler,
+} from '@meta-store'
+import { Filter } from '../filter/filter-store.service'
 
-@Injectable({ providedIn: 'root' })
-export class ListHandler {
-  constructor(private eventStream: MetaEventStream) {
-    this.eventStream.subscribe(event => this.load())
-  }
+@Injectable()
+export class ListHandler implements MetaStoreEventHandler {
+  constructor(private listApi: ListApi) {}
 
-  load(): void {
-    console.log('Loading')
+  register = (catalog: MetaStoreEventCatalog) => {
+    catalog.watch(forUpdate(Filter), _event => this.listApi.loadAll())
+    catalog.watch(forReset(Filter), _event => this.listApi.loadAll())
   }
 }
