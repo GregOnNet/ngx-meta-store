@@ -2,15 +2,17 @@
 
 This is an attempt to build a feature-driven and very opinionated state management solution.
 It starts being Angular related since I have most experience with this ecosystem.
-Howerver, it might be possible to extract a core that applies to other librarys as well
+However, it might be possible to extract a core that applies to other libraries as well.
 
 ## Goals
+
 > Application Developers first
 
 A simple API should be created that delivers a lot of benefits to the developer.
-Things like progress-state, network-state and url-state should be absstracted away.
+Things like progress state, network state and url state should be abstracted away.
 
 The framework should be progressive:
+
 - local state
   - single object
   - collection
@@ -20,22 +22,22 @@ The framework should be progressive:
 
 ## Requirements
 
-- It should handle optimistic/pesimistic updates running a side effect (aka API Call)
-- It should deliver Status-Information about a side effect (Loading-State, Errors)
-- It should handle network-connectivity implications
-- It should separate Read and Write-Operations.
-- It should generate the Statemanagement on top of a class representing an entity
+- It should handle optimistic/pessimistic updates running a side effect (aka API Call)
+- It should deliver status information about a side effect (loading state, errors)
+- It should handle network connectivity implications
+- It should separate read and write operations
+- It should generate the state management on top of a class representing an entity
 - It should provide a query API loading related entities
 - It should handle language switches
 - It should be possible to filter data on client (with memoization)- & server-side
 - It should know about loading state of the respective model (isInitialized, isLoading, isLoaded)
 - It should be capable of aggregating all loading states to tell if the app is busy or not
-- It should track errors of occurring in side-effects
+- It should track errors occurring in side effects
 - It should use immutable operations updating state locally
-- It should allow caching data In-Memory
+- It should allow caching data in-memory
 - It should allow caching/restoring data in/from browser storage
 - It should track changes of an object and persist them (unit of work)
-- It should provide a DebugContext logging all operation opening the gate for Developer Tools
+- It should provide a DebugContext logging all operation opening the gate for developer tools
 - It should allow resetting parts of the state if the user is not authenticated anymore
 
 ## Sources
@@ -48,10 +50,10 @@ The framework should be progressive:
 - https://www.youtube.com/watch?v=U6wFqbkIaQY
 - https://www.youtube.com/watch?v=SxHqhDT9WGI
 
-
 ## API Draft
-> Non of the information below is final.
-> Currently I am banging my head around a lot of stuff (see requirements)
+
+> None of the information below is final.
+> Currently, I am banging my head around a lot of stuff (see requirements).
 > Help is very appreciated.
 > https://gist.github.com/GregOnNet/54dbc1f781ecdd2e6bae0640889a657b
 
