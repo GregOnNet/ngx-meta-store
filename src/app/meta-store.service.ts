@@ -1,12 +1,29 @@
-import {Subject} from "rxjs";
-import {shareReplay} from "rxjs/operators";
+import { Draft, produce } from 'immer'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { shareReplay } from 'rxjs/operators'
+import { metaEventBus } from './meta-event-bus.service'
 
 export class MetaStore<TState> {
-  private stateInternal = new Subject<TState>();
+  private stateInternal: BehaviorSubject<TState>
+  state: Observable<TState>
 
-  state = this.stateInternal.pipe(shareReplay({bufferSize: 1, refCount: true}));
+  constructor(private initialState: TState) {
+    this.stateInternal = new BehaviorSubject(initialState)
+    this.state = this.stateInternal.pipe(
+      shareReplay({ bufferSize: 1, refCount: true })
+    )
+  }
 
-  set(newState: TState): void {
-    this.stateInternal.next(newState);
+  update(mutation: (state: Draft<TState>) => void): void {
+    const nextState = produce(this.stateInternal.getValue(), draft => {
+      mutation(draft)
+    })
+
+    this.stateInternal.next(nextState)
+    metaEventBus().next(nextState)
+  }
+
+  reset(): void {
+    this.stateInternal.next(this.initialState)
   }
 }
