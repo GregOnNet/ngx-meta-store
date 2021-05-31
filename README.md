@@ -115,13 +115,16 @@ export class Task {
   text: Text;
 }
 
-class Guid extends ValueObject {
+class Guid implements ValueObject {
   private _value: string;
   
   get value() { return this._value; }
   
-  constructor(guid: string) {
-    // validate guid
+  private constructor(guid: string) {
+    }
+  
+  create(): Result<Guid> {
+    // validate
     // set _value
   }
 }
